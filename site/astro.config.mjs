@@ -7,5 +7,6 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://jason-capshaw.github.io',
+	base: '/jcapshaw-with-claude',
 	integrations: [mdx(), sitemap()],
 });
