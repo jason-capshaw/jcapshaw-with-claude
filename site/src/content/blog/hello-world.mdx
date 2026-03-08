@@ -1,0 +1,27 @@
+---
+title: 'Hello World'
+description: 'First post — testing out Astro + MDX with interactive components.'
+pubDate: 'Mar 08 2026'
+---
+
+This site is built with [Astro](https://astro.build) and MDX. Posts are written in markdown, but when I need interactivity, I can drop in components directly.
+
+## Why this setup
+
+- **Markdown-first** — content is just `.md` or `.mdx` files. No CMS.
+- **Zero JS by default** — pages ship as static HTML unless a component explicitly needs JavaScript.
+- **Interactive when needed** — MDX lets me embed components right in a post.
+
+## A quick demo
+
+Here's a counter component embedded in this post. It hydrates on the client with minimal JS:
+
+import Counter from '../../components/Counter.astro';
+
+<Counter start={0} />
+
+The component is an Astro component using a small inline `<script>` — no framework runtime required. The rest of this page is plain HTML.
+
+## What's next
+
+More posts, more experiments. Stay tuned.
