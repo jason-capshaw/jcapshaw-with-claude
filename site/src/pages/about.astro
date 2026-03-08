@@ -1,21 +1,53 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={`About | ${SITE_TITLE}`} description="About Jason Capshaw" />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>About</h1>
-			<p>More coming soon.</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title="About - Jason Capshaw" description="Jason Capshaw - background, experience, and what I work on.">
+	<div class="page-intro">
+		<h1 class="page-intro__headline">About</h1>
+	</div>
+
+	<div class="about-photo">
+		<img src="/jason-capshaw.jpg" alt="Jason Capshaw" width="160" height="160" />
+	</div>
+
+	<div class="about-content">
+		<p>
+			I work at the intersection of B2B distribution, digital commerce, and
+			enterprise technology. My focus is on helping organizations build
+			systems that actually work: commerce platforms, data infrastructure,
+			and digital operations that survive contact with the real world.
+		</p>
+
+		<p>
+			Most of my career has been spent inside distribution and industrial
+			commerce, where the problems are unglamorous but the stakes are high.
+			Getting product data right, making pricing engines that don't
+			collapse under complexity, building search that understands industrial
+			taxonomies. This is the work that separates real digital transformation
+			from slideware.
+		</p>
+
+		<p>
+			I write here about what I'm learning and building. The essays are
+			longer explorations of ideas. The field notes are shorter observations
+			from the work itself.
+		</p>
+
+		<h2>What I care about</h2>
+		<ul>
+			<li>Commerce architecture that serves B2B complexity, not just B2C patterns with a login page</li>
+			<li>Data systems that handle the mess of real product catalogs and pricing</li>
+			<li>AI and automation applied to actual business problems, not demos</li>
+			<li>Clear thinking about technology strategy in traditional industries</li>
+		</ul>
+
+		<h2>Get in touch</h2>
+		<p>
+			The best way to reach me is by email at{' '}
+			<a href="mailto:jason@jcapshaw.com">jason@jcapshaw.com</a>.
+			I'm also on{' '}
+			<a href="https://linkedin.com/in/jasoncapshaw" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+		</p>
+	</div>
+</BaseLayout>

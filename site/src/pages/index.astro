@@ -1,27 +1,38 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const posts = (await getCollection('writing'))
+	.filter((p) => p.data.published)
+	.sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Hey, I'm Jason.</h1>
-			<p>
-				I build things, break things, and write about it here.
-				This site runs on markdown and ships almost no JavaScript — unless a post needs it.
-			</p>
-			<p>
-				Check out the <a href="/blog">blog</a> or learn more <a href="/about">about me</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<div class="page-intro">
+		<p class="page-intro__subhead">
+			I solve commerce technology problems for companies that sell through complex
+			catalogs, negotiated pricing, and account relationships. I write about what
+			actually works from inside that world.
+		</p>
+	</div>
+
+	<ul class="writing-list">
+		{posts.map((post) => (
+			<li class="writing-item">
+				<div class="writing-item__body">
+					<h3 class="writing-item__title">
+						<a href={`/writing/${post.id}/`}>{post.data.title}</a>
+					</h3>
+					<p class="writing-item__excerpt">{post.data.excerpt}</p>
+				</div>
+				<div class="writing-item__aside">
+					<p class="writing-item__type">
+						{post.data.type === 'essay' ? 'Essay' : 'Field Note'}
+					</p>
+					<p class="writing-item__date">{post.data.date}</p>
+				</div>
+			</li>
+		))}
+	</ul>
+</BaseLayout>

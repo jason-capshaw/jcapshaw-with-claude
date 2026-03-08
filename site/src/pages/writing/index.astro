@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('writing'))
+	.filter((p) => p.data.published)
+	.sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
+---
+
+<BaseLayout title="Writing - Jason Capshaw" description="Essays and field notes on B2B distribution, commerce architecture, enterprise systems, and applied AI.">
+	<div class="page-intro">
+		<h1 class="page-intro__headline">Writing</h1>
+		<p class="page-intro__subhead">
+			Essays and field notes on the real problems of B2B digital commerce.
+			Platform decisions, data quality, AI that ships.
+		</p>
+	</div>
+
+	{posts.length > 0 ? (
+		<ul class="writing-list">
+			{posts.map((post) => (
+				<li class="writing-item">
+					<div class="writing-item__body">
+						<h2 class="writing-item__title">
+							<a href={`/writing/${post.id}/`}>{post.data.title}</a>
+						</h2>
+						<p class="writing-item__excerpt">{post.data.excerpt}</p>
+					</div>
+					<div class="writing-item__aside">
+						<p class="writing-item__type">
+							{post.data.type === 'essay' ? 'Essay' : 'Field Note'}
+						</p>
+						<p class="writing-item__date">{post.data.date}</p>
+					</div>
+				</li>
+			))}
+		</ul>
+	) : (
+		<p class="empty-state">Writing coming soon.</p>
+	)}
+</BaseLayout>

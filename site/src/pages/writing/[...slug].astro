@@ -1,0 +1,60 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('writing');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'writing'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = (await getCollection('writing'))
+	.filter((p) => p.data.published)
+	.sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
+
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const nextPost = currentIndex >= 0 && currentIndex < allPosts.length - 1
+	? allPosts[currentIndex + 1]
+	: null;
+
+function estimateReadingTime(content: string): string {
+	const words = content.trim().split(/\s+/).length;
+	const minutes = Math.max(1, Math.round(words / 230));
+	return `${minutes} min read`;
+}
+---
+
+<BaseLayout title={`${post.data.title} - Jason Capshaw`} description={post.data.excerpt}>
+	<article>
+		<a href="/writing" class="article-back">&larr; All writing</a>
+		<header class="article-header">
+			<p class="article-header__type">
+				{post.data.type === 'essay' ? 'Essay' : 'Field Note'}
+			</p>
+			<h1 class="article-header__title">{post.data.title}</h1>
+			<div class="article-header__meta">
+				<span>{post.data.date}</span>
+				<span>{estimateReadingTime(post.body || '')}</span>
+			</div>
+		</header>
+		<div class="article-content">
+			<Content />
+		</div>
+		{nextPost && (
+			<footer class="article-footer">
+				<p class="article-footer__label mono">Next</p>
+				<h3 class="writing-item__title">
+					<a href={`/writing/${nextPost.id}/`}>{nextPost.data.title}</a>
+				</h3>
+				<p class="writing-item__excerpt">{nextPost.data.excerpt}</p>
+			</footer>
+		)}
+	</article>
+</BaseLayout>
